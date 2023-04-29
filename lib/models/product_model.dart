@@ -18,7 +18,30 @@ class Product extends Equatable {
   @override
   List<Object?> get props =>
       [name, price, category, imageUrl, isRecommended, isPopular];
-      static List<Product> products = [
-        
-      ];
+  static List<Product> products = [
+    Product(
+        name: 'Soft Drinks #1',
+        category: 'Soft Drinks',
+        imageUrl:
+            'https://i.pinimg.com/originals/b3/c3/19/b3c3198adb7d53a156704c2cf6a273ca.jpg',
+        price: 3.9,
+        isRecommended: false,
+        isPopular: true),
+    Product(
+        name: 'Soft Drinks #1',
+        category: 'Soft Drinks',
+        imageUrl:
+            'https://i.pinimg.com/originals/b3/c3/19/b3c3198adb7d53a156704c2cf6a273ca.jpg',
+        price: 3.9,
+        isRecommended: true,
+        isPopular: false),
+    Product(
+        name: 'Soft Drinks #1',
+        category: 'Soft Drinks',
+        imageUrl:
+            'https://i.pinimg.com/originals/b3/c3/19/b3c3198adb7d53a156704c2cf6a273ca.jpg',
+        price: 3.9,
+        isRecommended: false,
+        isPopular: true)
+  ];
 }
