@@ -7,7 +7,6 @@ import '../widget/carousel_product.dart';
 import '../widget/custom_app_bar.dart';
 import '../widget/custom_navbar.dart';
 import '../widget/hero_carosel_card.dart';
-import '../widget/product_card.dart';
 import '../widget/section_title.dart';
 
 class HomeScreen extends StatelessWidget {
