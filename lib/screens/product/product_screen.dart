@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:comerce_app/blocs/bloc/wishlist_bloc.dart';
 import 'package:comerce_app/widget/hero_carosel_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../models/category_model.dart';
 import '../../models/product_model.dart';
@@ -36,20 +38,33 @@ class ProductScreen extends StatelessWidget {
                     Icons.share,
                     color: Colors.white,
                   )),
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.favorite,
-                    color: Colors.white,
-                  )),
+              BlocBuilder<WishlistBloc, WishlistState>(
+                builder: (context, state) {
+                  return IconButton(
+                      onPressed: () {
+                        context
+                            .read<WishlistBloc>()
+                            .add(AddProductToWishList(product));
+                        final snackbar = SnackBar(
+                          content: Center(
+                            child: Text('Added to your Wihslist!'),
+                          ),
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(snackbar);
+                      },
+                      icon: const Icon(
+                        Icons.favorite,
+                        color: Colors.white,
+                      ));
+                },
+              ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                  style:
+                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
                   onPressed: () {},
                   child: Text(
                     'ADD TO CART',
-                    style: Theme.of(context)
-                        .textTheme
-                        .displaySmall,
+                    style: Theme.of(context).textTheme.displaySmall,
                   ))
             ],
           ),
@@ -120,6 +135,25 @@ class ProductScreen extends StatelessWidget {
               initiallyExpanded: true,
               title: Text(
                 'Product Information',
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+              children: [
+                ListTile(
+                  title: Text(
+                    'Somthing about something Somthing about somethingSomthing about somethingSomthing about something',
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                )
+              ],
+            ),
+          ),
+        const  SizedBox(height: 10,),
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: ExpansionTile(
+              initiallyExpanded: true,
+              title: Text(
+                'Delivery',
                 style: Theme.of(context).textTheme.displaySmall,
               ),
               children: [

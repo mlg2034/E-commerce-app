@@ -86,7 +86,7 @@ class ProductCard extends StatelessWidget {
                     child: IconButton(
                       onPressed: () {},
                       icon: Icon(
-                        Icons.delete,
+                        Icons.delete  ,
                         color: Colors.white,
                       ),
                     ),
