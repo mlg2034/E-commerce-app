@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../blocs/bloc/wishlist_bloc.dart';
+import '../blocs/cart/cart_bloc.dart';
 import '../models/cart_model.dart';
 import '../models/product_model.dart';
 import '../widget/cart_product_card.dart';
@@ -19,29 +19,34 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'Cart',
-      ),
-      bottomNavigationBar: BottomAppBar(
-        color: Colors.black,
-        child: Container(
-          height: 70,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () {},
-                  child: Text(
-                    'GO TO CHECKOUT',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ))
-            ],
+        appBar: CustomAppBar(
+          title: 'Cart',
+        ),
+        bottomNavigationBar: BottomAppBar(
+          color: Colors.black,
+          child: Container(
+            height: 70,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                    style:
+                        ElevatedButton.styleFrom(backgroundColor: Colors.white),
+                    onPressed: () {},
+                    child: Text(
+                      'GO TO CHECKOUT',
+                      style: Theme.of(context).textTheme.displaySmall,
+                    ))
+              ],
+            ),
           ),
         ),
-      ),
-      body: Padding(
+        body: BlocBuilder<CartBloc, CartState>(
+          builder: (context, state) {
+            if(state is CartLoading){
+            return Center(child: CircularProgressIndicator());}
+            if(state is CartLoaded){
+              return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -52,7 +57,7 @@ class CartScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        Cart().freeDeliveryString,
+                        state.cart.freeDeliveryString,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       ElevatedButton(
@@ -79,10 +84,10 @@ class CartScreen extends StatelessWidget {
                   SizedBox(
                     height: 400,
                     child: ListView.builder(
-                      itemCount: Cart().product.length,
+                      itemCount: state.cart.products.length,
                       itemBuilder:(context , index){
                         return  CartProductCard(
-                    product: Cart().product[index],
+                    product: state.cart.products[index],
                   );
                     } ),
                   ),
@@ -107,7 +112,7 @@ class CartScreen extends StatelessWidget {
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             Text(
-                              '\$${Cart().subtotalString}',
+                              '\$${state.cart.subtotalString}',
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                           ],
@@ -123,7 +128,7 @@ class CartScreen extends StatelessWidget {
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             Text(
-                              '\$${Cart().deliberyFreeString}',
+                              '\$${state.cart.deliberyFreeString}',
                               style: Theme.of(context).textTheme.headlineSmall,
                             )
                           ],
@@ -157,7 +162,7 @@ class CartScreen extends StatelessWidget {
                                     .copyWith(color: Colors.white),
                               ),
                               Text(
-                               '\$${ Cart().totalString}',
+                               '\$${ state.cart.totalString}',
                                 style: Theme.of(context)
                                     .textTheme
                                     .headlineSmall!
@@ -172,7 +177,12 @@ class CartScreen extends StatelessWidget {
                 ],
               ),
             ]),
-      ),
-    );
+      );
+            }
+            else{
+              return Center(child: Text('SOMETHING WENT WRONG'));
+            }
+          },
+        ));
   }
 }

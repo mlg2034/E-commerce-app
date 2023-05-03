@@ -1,8 +1,7 @@
-import 'package:comerce_app/blocs/bloc/wishlist_bloc.dart';
-import 'package:comerce_app/models/models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/wishlist/wishlist_bloc.dart';
 import '../../widget/custom_app_bar.dart';
 import '../../widget/custom_navbar.dart';
 import '../../widget/product_card.dart';

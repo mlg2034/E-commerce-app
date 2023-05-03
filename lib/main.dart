@@ -1,9 +1,10 @@
-import 'package:comerce_app/blocs/bloc/wishlist_bloc.dart';
+import 'package:comerce_app/blocs/cart/cart_bloc.dart';
 import 'package:comerce_app/conflig/theme.dart';
 import 'package:comerce_app/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'blocs/wishlist/wishlist_bloc.dart';
 import 'conflig/app_route.dart';
 
 void main() {
@@ -17,12 +18,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => CartBloc()..add(LoadCart())),
         BlocProvider(
           create: (_) => WishlistBloc()
             ..add(
               LoadWishlist(),
             ),
-      
         ),
       ],
       child: MaterialApp(

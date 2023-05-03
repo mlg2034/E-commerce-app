@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:comerce_app/blocs/bloc/wishlist_bloc.dart';
 import 'package:comerce_app/widget/hero_carosel_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../blocs/cart/cart_bloc.dart';
+import '../../blocs/wishlist/wishlist_bloc.dart';
 import '../../models/category_model.dart';
 import '../../models/product_model.dart';
 import '../../widget/custom_app_bar.dart';
@@ -58,14 +59,21 @@ class ProductScreen extends StatelessWidget {
                       ));
                 },
               ),
-              ElevatedButton(
-                  style:
-                      ElevatedButton.styleFrom(backgroundColor: Colors.white),
-                  onPressed: () {},
-                  child: Text(
-                    'ADD TO CART',
-                    style: Theme.of(context).textTheme.displaySmall,
-                  ))
+              BlocBuilder<CartBloc, CartState>(
+                builder: (context, state) {
+                  return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white),
+                      onPressed: () {
+                        Navigator.of(context).pushNamed('/cart');
+                        context.read<CartBloc>().add(AddProduct(product));
+                      },
+                      child: Text(
+                        'ADD TO CART',
+                        style: Theme.of(context).textTheme.displaySmall,
+                      ));
+                },
+              )
             ],
           ),
         ),
@@ -147,8 +155,10 @@ class ProductScreen extends StatelessWidget {
               ],
             ),
           ),
-        const  SizedBox(height: 10,),
-           Padding(
+          const SizedBox(
+            height: 10,
+          ),
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: ExpansionTile(
               initiallyExpanded: true,
