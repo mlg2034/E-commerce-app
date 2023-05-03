@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../blocs/bloc/wishlist_bloc.dart';
+import '../models/cart_model.dart';
 import '../models/product_model.dart';
 import '../widget/cart_product_card.dart';
 import '../widget/custom_app_bar.dart';
@@ -28,8 +29,6 @@ class CartScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-            
-             
               ElevatedButton(
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.white),
@@ -45,123 +44,134 @@ class CartScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Column(
                 children: [
-                  Text(
-                    'Add \$20.0 for FREE Delivery',
-                    style: Theme.of(context).textTheme.headlineSmall,
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/');
-                    },
-                    child: Text(
-                      'Add More Items',
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(color: Colors.white),
-                    ),
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(),
-                        elevation: 0),
-                  )
-                ],
-              ),
-                 const SizedBox(
-            height: 10,
-          ),
-          CartProductCard(
-            product: Product.products[0],
-          ),
-          CartProductCard(
-            product: Product.products[2],
-
-          ),
-            ],
-          ),
-       
-           Column(children: [
-             const Divider(
-            thickness: 2,
-          ),
-         
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 10),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'SUBTOTAL',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    Text(
-                      '\$5.99',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'DELIVERY FREE',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    ),
-                    Text(
-                      '\$2.8',
-                      style: Theme.of(context).textTheme.headlineSmall,
-                    )
-                  ],
-                ),
-              ],
-            ),
-          ),
-          Stack(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.width,
-                height: 60,
-                decoration: BoxDecoration(color: Colors.black.withAlpha(50)),
-              ),
-               Container(
-                width: MediaQuery.of(context).size.width,
-                margin:const EdgeInsets.all(5.0),
-                height: 50,
-                decoration: BoxDecoration(color: Colors.black),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'TOTAL',
-                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+                        Cart().freeDeliveryString,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      Text(
-                        '\$12.8',
-                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: Colors.white),
+                      ElevatedButton(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/');
+                        },
+                        child: Text(
+                          'Add More Items',
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(color: Colors.white),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: RoundedRectangleBorder(),
+                            elevation: 0),
                       )
                     ],
                   ),
-                ),
-              )
-            ],
-          )
-           ],),
-         
-        ]),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 400,
+                    child: ListView.builder(
+                      itemCount: Cart().product.length,
+                      itemBuilder:(context , index){
+                        return  CartProductCard(
+                    product: Cart().product[index],
+                  );
+                    } ),
+                  ),
+                
+                ],
+              ),
+              Column(
+                children: [
+                  const Divider(
+                    thickness: 2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 40, vertical: 10),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'SUBTOTAL',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            Text(
+                              '\$${Cart().subtotalString}',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'DELIVERY FREE',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            Text(
+                              '\$${Cart().deliberyFreeString}',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            )
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Stack(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        decoration:
+                            BoxDecoration(color: Colors.black.withAlpha(50)),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: const EdgeInsets.all(5.0),
+                        height: 50,
+                        decoration: BoxDecoration(color: Colors.black),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 30),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'TOTAL',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(color: Colors.white),
+                              ),
+                              Text(
+                               '\$${ Cart().totalString}',
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(color: Colors.white),
+                              )
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
+            ]),
       ),
     );
   }
